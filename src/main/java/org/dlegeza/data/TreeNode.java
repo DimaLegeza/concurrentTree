@@ -10,11 +10,20 @@ import java.util.Random;
 public class TreeNode {
 	private final Logger logger = LoggerFactory.getLogger(TreeNode.class);
 	private List<TreeNode> children = new ArrayList<>();
+	private TreeNode lockObject = this;
 
 	public void addChild() {
-		synchronized (TreeNode.class) {
-			logger.warn("Tree expanded...");
+		synchronized (this.lockObject) {
+			this.setLock(this);
 			children.add(new TreeNode());
+			logger.warn("Tree expanded...");
+		}
+	}
+
+	public void setLock(TreeNode lock) {
+		this.lockObject = lock;
+		for (TreeNode childNode: this.children) {
+			childNode.setLock(this.lockObject);
 		}
 	}
 
@@ -30,12 +39,12 @@ public class TreeNode {
 	}
 
 	public int treeSize() {
-		synchronized (TreeNode.class) {
-			int accum = 1;
+		synchronized (this.lockObject) {
+			int acc = 1;
 			for (TreeNode child : this.children) {
-				accum += child.treeSize();
+				acc += child.treeSize();
 			}
-			return accum;
+			return acc;
 		}
 	}
 }

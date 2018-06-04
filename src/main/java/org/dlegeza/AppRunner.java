@@ -13,8 +13,8 @@ public class AppRunner {
 
 	public static void main(String[] args) {
 		TreeNode root = new TreeNode();
-		int treeSizeLimit = 2000;
-		int maxTimeout = treeSizeLimit / 100;
+		int treeSizeLimit = 20000;
+		int maxTimeout = treeSizeLimit / 1000;
 		int currentSize = root.treeSize();
 		while (currentSize < treeSizeLimit) {
 			int timeout = new Random().nextInt(maxTimeout) + 1;
