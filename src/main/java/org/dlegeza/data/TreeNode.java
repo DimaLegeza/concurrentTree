@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class TreeNode {
 	private final Logger logger = LoggerFactory.getLogger(TreeNode.class);
@@ -47,4 +48,13 @@ public class TreeNode {
 			return acc;
 		}
 	}
+
+	public void print() {
+        System.out.print(this.children
+                .stream()
+                .map(child -> String.format("o(%d)", child.children.size()))
+                .collect(Collectors.joining()));
+        this.children.forEach(child -> child.print());
+        System.out.println();
+    }
 }

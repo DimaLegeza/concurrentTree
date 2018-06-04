@@ -24,7 +24,9 @@ public class AppRunner {
 			currentSize++;
 		}
 
+
 		runner.provider.shutdown();
+		root.print();
 	}
 
 }
