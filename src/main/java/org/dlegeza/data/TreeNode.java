@@ -1,14 +1,21 @@
 package org.dlegeza.data;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class TreeNode {
-	private volatile List<TreeNode> children = new ArrayList<>();
+	private final Logger logger = LoggerFactory.getLogger(TreeNode.class);
+	private List<TreeNode> children = new ArrayList<>();
 
 	public void addChild() {
-		children.add(new TreeNode());
+		synchronized (TreeNode.class) {
+			logger.warn("Tree expanded...");
+			children.add(new TreeNode());
+		}
 	}
 
 	public TreeNode getRandomNode() {
@@ -23,10 +30,12 @@ public class TreeNode {
 	}
 
 	public int treeSize() {
-		int accum = 1;
-		for (TreeNode child : this.children) {
-			accum += child.treeSize();
+		synchronized (TreeNode.class) {
+			int accum = 1;
+			for (TreeNode child : this.children) {
+				accum += child.treeSize();
+			}
+			return accum;
 		}
-		return accum;
 	}
 }

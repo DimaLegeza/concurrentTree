@@ -1,11 +1,11 @@
 package org.dlegeza;
 
-import java.util.Random;
-
 import org.dlegeza.data.TreeNode;
 import org.dlegeza.executors.ExecutorProvider;
 import org.dlegeza.tasks.ReaderTask;
 import org.dlegeza.tasks.TreeBuilderTask;
+
+import java.util.Random;
 
 public class AppRunner {
 	private ExecutorProvider provider = new ExecutorProvider();
@@ -14,7 +14,7 @@ public class AppRunner {
 	public static void main(String[] args) {
 		TreeNode root = new TreeNode();
 		int treeSizeLimit = 2000;
-		int maxTimeout = treeSizeLimit / 15;
+		int maxTimeout = treeSizeLimit / 100;
 		int currentSize = root.treeSize();
 		while (currentSize < treeSizeLimit) {
 			int timeout = new Random().nextInt(maxTimeout) + 1;
@@ -24,7 +24,7 @@ public class AppRunner {
 			currentSize++;
 		}
 
-//		runner.provider.shutdown();
+		runner.provider.shutdown();
 	}
 
 }
